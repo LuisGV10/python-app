@@ -9,79 +9,150 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
     <style>
+        /* Tipografía: Poppins (títulos) + Inter (texto) */
+        @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap");
+
+        /* =========================================================
+           Tema general (Estudiante B - feature-theme-update)
+           ========================================================= */
+
+        /* ===== Esquema de colores y tipografía ===== */
+        :root {
+            --color-bg-1: #0f2027;
+            --color-bg-2: #203a43;
+            --color-bg-3: #2c5364;
+            --color-primary: #14b8a6;       /* turquesa */
+            --color-primary-dark: #0d9488;
+            --color-accent: #f59e0b;        /* ámbar para el resultado */
+            --color-text: #1e293b;
+            --color-muted: #64748b;
+            --color-card: rgba(255, 255, 255, 0.96);
+            --color-border: #e2e8f0;
+
+            --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-title: 'Poppins', var(--font-body);
+        }
+
+        /* ===== Base ===== */
         body {
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            font-family: "DM Sans", system-ui, sans-serif;
+            font-family: var(--font-body);
+            color: var(--color-text);
+            background: linear-gradient(135deg, var(--color-bg-1), var(--color-bg-2), var(--color-bg-3));
+            background-attachment: fixed;
+            flex-direction: column;   /* si se añade una navbar, queda arriba y no al lado de la tarjeta */
+            padding: 1rem;
         }
 
-        /* ---------- Navbar ---------- */
-        .site-navbar {
-            background: rgba(10, 25, 55, 0.55);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-            padding-block: 0.75rem;
-        }
-        .site-navbar .navbar-brand {
-            display: flex;
-            align-items: center;
-            gap: 0.65rem;
-            font-family: "DM Serif Display", Georgia, serif;
-            font-size: 1.5rem;
-            color: #fff;
-        }
-        .site-navbar .navbar-brand:hover {
-            color: #f2c14e;
-        }
-        .brand-logo {
-            width: 38px;
-            height: 38px;
-            flex-shrink: 0;
-        }
-        .site-navbar .nav-link {
-            color: rgba(255, 255, 255, 0.78);
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            border-radius: 999px;
-            transition: background-color 0.2s, color 0.2s;
-        }
-        .site-navbar .nav-link:hover {
-            color: #fff;
-            background: rgba(255, 255, 255, 0.1);
-        }
-        .site-navbar .nav-link.active {
-            color: #14284f;
-            background: #f2c14e;
-        }
-        .site-navbar .nav-link:focus-visible,
-        .site-navbar .navbar-brand:focus-visible,
-        .site-navbar .navbar-toggler:focus-visible {
-            outline: 2px solid #f2c14e;
-            outline-offset: 2px;
-        }
-        .site-navbar .navbar-toggler {
-            border-color: rgba(255, 255, 255, 0.4);
-        }
-        .site-navbar .navbar-toggler-icon {
-            filter: invert(1);
-        }
-        .nav-cta {
-            font-weight: 700;
-            border-radius: 999px;
-            padding-inline: 1.25rem;
+        /* Sustituye a la altura fija de .vh-100: en pantallas bajas el contenido no se corta */
+        body.vh-100 {
+            height: auto !important;
+            min-height: 100vh;
         }
 
-        /* ---------- Tarjeta del conversor ---------- */
+        /* Una navbar colocada directamente en <body> ocupa todo el ancho */
+        body > nav,
+        body > header,
+        body > .navbar {
+            align-self: stretch;
+        }
+
+        /* ===== Tarjeta ===== */
         .converter-card {
+            width: 100% !important;   /* anula el width: 400px del atributo style */
+            max-width: 420px;
+            margin: auto;
+            border: none;
             border-radius: 20px;
-            backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.95);
-            width: 400px;
-            max-width: 100%;
+            background: var(--color-card);
         }
-        .result-box {
+
+        .converter-card h2 {
+            font-family: var(--font-title);
+            font-weight: 700;
+            font-size: clamp(1.4rem, 5vw, 1.9rem);
+            color: var(--color-bg-2);
+        }
+
+        /* ===== Formulario ===== */
+        .converter-card .form-label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--color-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .converter-card .form-control,
+        .converter-card .form-select {
+            border: 2px solid var(--color-border);
+            border-radius: 12px;
+        }
+
+        .converter-card .form-control:focus,
+        .converter-card .form-select:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 0.2rem rgba(20, 184, 166, 0.25);
+        }
+
+        /* Flecha entre los dos selectores */
+        .converter-card form .row > .text-center {
+            flex: 0 0 auto;
+            width: auto;
             font-size: 1.5rem;
-            font-weight: bold;
-            color: #198754;
+            color: var(--color-primary);
+        }
+
+        /* ===== Botón ===== */
+        .converter-card .btn-primary {
+            font-family: var(--font-title);
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            background: var(--color-primary);
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .converter-card .btn-primary:hover,
+        .converter-card .btn-primary:focus {
+            background: var(--color-primary-dark);
+        }
+
+        .converter-card .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        /* ===== Resultado ===== */
+        .result-box {
+            font-family: var(--font-title);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-accent);
+            background: rgba(245, 158, 11, 0.1);
+            border-radius: 12px;
+            padding: 0.75rem;
+            word-break: break-word;
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 576px) {
+            .converter-card {
+                padding: 1.5rem !important;
+            }
+
+            /* Selectores apilados y flecha hacia abajo */
+            .converter-card form .row {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .converter-card form .row > .text-center {
+                transform: rotate(90deg);
+                align-self: center !important;
+            }
+
+            .result-box {
+                font-size: 1.25rem;
+            }
         }
     </style>
 </head>
